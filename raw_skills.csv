@@ -1,0 +1,21 @@
+role,skills
+Data Scientist,python;sql;machine learning;statistics;data analysis;pandas;scikit-learn;data visualization
+Machine Learning Engineer,python;machine learning;deep learning;tensorflow;pytorch;docker;mlops;git
+Data Analyst,sql;excel;data analysis;data visualization;tableau;statistics;python
+Data Engineer,python;sql;spark;airflow;etl;aws;docker;data modeling
+DevOps Engineer,aws;docker;kubernetes;ci/cd;linux;terraform;git;automation;python
+Cloud Engineer,aws;azure;cloud;terraform;linux;networking;automation;python
+Cloud Architect,aws;azure;cloud;networking;security;terraform;kubernetes;system design
+Site Reliability Engineer,linux;kubernetes;python;monitoring;automation;ci/cd;networking;cloud
+System Administrator,linux;networking;bash;automation;security;virtualization;monitoring
+Backend Developer,java;python;sql;apis;git;docker;system design;data structures
+Frontend Developer,javascript;html;css;react;typescript;git;ui design;apis
+Full Stack Developer,javascript;react;node.js;sql;apis;html;css;git;docker
+Mobile App Developer,kotlin;swift;android;ios;apis;git;ui design;data structures
+Cybersecurity Analyst,security;networking;linux;python;penetration testing;cryptography;monitoring
+QA Automation Engineer,python;selenium;automation;ci/cd;git;sql;testing;java
+AI Research Engineer,python;deep learning;pytorch;mathematics;machine learning;nlp;statistics;data structures
+Computer Vision Engineer,python;deep learning;opencv;pytorch;cnn;machine learning;mathematics;image processing
+NLP Engineer,python;nlp;deep learning;pytorch;machine learning;transformers;data structures;statistics
+Database Administrator,sql;database design;linux;performance tuning;backup;security;automation
+Embedded Systems Engineer,c;c++;microcontrollers;electronics;linux;rtos;data structures;debugging
