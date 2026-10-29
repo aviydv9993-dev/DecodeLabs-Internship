@@ -150,6 +150,134 @@ are not statistically meaningful.
 - Add `GridSearchCV` to tune several hyperparameters at once.
 - Next milestone: Deep Learning and CNNs for computer vision.
 
+- # Project 3: AI Recommendation Logic - Tech Stack Recommender
+
+**DecodeLabs | Artificial Intelligence Industrial Training Kit | Batch 2026**
+
+A content-based recommendation engine that maps a user's skills to the most relevant
+tech career paths. It uses **TF-IDF weighting** and **cosine similarity**, both
+implemented from scratch with NumPy, and returns the **Top 3** matching job roles.
+
+---
+
+## Goal
+
+Create a simple recommendation system based on user preferences: take user input,
+match preferences using similarity logic, and display the recommended items.
+
+## How it works (IPO + 4-step ranking pipeline)
+
+| Step | Stage     | What happens                                                          |
+|------|-----------|-----------------------------------------------------------------------|
+| 1    | Ingestion | Capture at least 3 skills, normalise wording, reject unknown skills   |
+| 2    | Scoring   | Cosine similarity between the user vector and every job-role vector   |
+| 3    | Sorting   | Rank roles by score, highest first                                    |
+| 4    | Filtering | Truncate to the Top-N list (default 3) to avoid choice overload       |
+
+### The maths
+
+- **TF** = count of term in document / total terms in document
+- **IDF** = ln((N + 1) / (df + 1)) + 1
+  (smoothed version of ln(N / df), so a skill present in every role never drops to weight 0)
+- **Weight** = TF x IDF, so rare, descriptive skills (e.g. `terraform`) count for more than
+  common ones (e.g. `python`)
+- **Cosine similarity** = (A . B) / (||A|| ||B||). It compares direction, not size, so a role
+  with a long skill list is not unfairly penalised. Scores sit between 0 and 1 because
+  TF-IDF values are never negative.
+
+## Files
+
+```
+project3/
+├── tech_stack_recommender.py   # the engine and CLI
+├── raw_skills.csv              # dataset: 20 job roles and their skills
+└── README.md
+```
+
+## Setup
+
+```bash
+pip install numpy
+pip install scikit-learn      # optional, only for --verify
+```
+
+## Run
+
+```bash
+# Interactive onboarding survey
+python tech_stack_recommender.py
+
+# Pass skills directly (quote multi-word skills)
+python tech_stack_recommender.py -s python "cloud computing" automation
+
+# Show the top 5 instead of 3
+python tech_stack_recommender.py -s python sql ml -n 5
+
+# Prove the from-scratch maths equals scikit-learn's
+python tech_stack_recommender.py --verify
+```
+
+### Sample output
+
+```
+Skills used : python, cloud, automation
+
+1. Site Reliability Engineer  -  55.5% match
+   You have : python, automation, cloud
+   To learn : linux, kubernetes, monitoring, ci/cd, networking
+
+2. Cloud Engineer  -  55.2% match
+   You have : cloud, automation, python
+   To learn : aws, azure, terraform, linux, networking
+
+3. Cloud Architect  -  25.9% match
+   You have : cloud
+   To learn : aws, azure, networking, security, terraform, kubernetes, system design
+```
+
+## Features beyond the brief
+
+- **From-scratch TF-IDF and cosine similarity**, checked against scikit-learn by `--verify`
+  (max difference about 1e-16).
+- **Shared vocabulary guard:** aliases map user wording onto dataset wording
+  (`ml` -> `machine learning`, `cloud computing` -> `cloud`, `k8s` -> `kubernetes`), because
+  mismatched naming makes the similarity maths fail.
+- **Cold-start bypass:** the interactive survey keeps asking until at least 3 recognised
+  skills are given, and suggests fixes for typos (`pyton` -> did you mean `python`?).
+- **Explainable results:** every recommendation shows which skills you already have and
+  which to learn next, making it a mini learning roadmap.
+- **Edge cases handled:** duplicate skills, empty input, zero vectors (no divide-by-zero),
+  and deterministic tie-breaking.
+
+## Using your own dataset
+
+Replace `raw_skills.csv` with your own file, or pass `--data other.csv`. Format:
+
+```csv
+role,skills
+Data Scientist,python;sql;machine learning;statistics
+```
+
+If your instructor provides their own `raw_skills.csv`, drop it in and the code works
+unchanged, as long as it has `role` and `skills` columns with skills separated by `;`.
+Extend `ALIASES` in the script if their skill names differ from mine.
+
+## Limitations
+
+- Content-based filtering only recommends roles whose skills overlap with the input, so it
+  cannot suggest surprising options the way collaborative filtering can.
+- The dataset is small and hand-written; real results depend on the quality of the skill lists.
+- Skills outside the dataset vocabulary are ignored.
+
+## Ideas to extend
+
+- Let users rate skills (1-5) instead of just listing them.
+- Add a similarity score between roles ("roles similar to DevOps Engineer").
+- Add a trending-roles fallback for users with no skills at all.
+- Build a Streamlit or Flask front end.
+- Compare against Jaccard similarity to see why TF-IDF + cosine ranks better.
+
+
 
 ## Author
 Your Name - Avinash,DecodeLabs AI Intern, Batch 2026
